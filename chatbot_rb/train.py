@@ -56,7 +56,7 @@ hidden_size = 64
 output_size = len(tags)
 input_size = len(X_train[0])
 learning_rate = 0.001
-num_epochs = 1000
+num_epochs = 20000
 
 print(input_size, output_size)
 
@@ -120,3 +120,4 @@ FILE = "data.pth"
 torch.save(data, FILE)
 
 print(f'training complete. file saved to {FILE}')
+

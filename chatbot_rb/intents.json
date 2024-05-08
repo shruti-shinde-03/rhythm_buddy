@@ -83,7 +83,7 @@
                 "What support is offered"
             ],
             "responses": [
-                "I am a general purpose chatbot. I can chat about general things with you."],
+                "I am your rhythm buddy chatbot. I can chat about general things with you and recommend you songs based on the tone of your chat."],
             "context": [
                 ""
             ]
@@ -151,7 +151,7 @@
                 "what are you"
             ],
             "responses": [
-                "I am olivia , your mental health buddy:)"
+                "I am rhythm buddy chatbot , your friend:)"
             ]
         },
         
@@ -167,6 +167,50 @@
                 "All good..What about you?"
             ]
         },
+
+        {
+            "tag": "generalTalkpositive",
+            "patterns": [
+                "i feel good today",
+                "it's a wonderful day",
+                "i am feeling awesome",
+                "i am very happy, cheerful, in a good mood"
+            ],
+            "responses": [
+                "Hey i'm glad to know that!! Would u like to tell me more?"
+            ]
+        },
+
+        {
+            "tag": "generalTalknegative",
+            "patterns": [
+                "i feel weird",
+                "it was an annoying event",
+                "i hate what happened",
+                "i am very angry",
+                "i feel nervous",
+                "it was very irritating incident"
+            ],
+            "responses": [
+                "Hmmm...i understand how you're feeling. Would you like to talk more about it?"
+            ]
+        },
+
+        {
+            "tag": "boring",
+            "patterns": [
+                "what a boring day",
+                "such a disappointing day it was",
+                "it was an okayish day",
+                "i did not do anything today",
+                "i felt very lifeless"
+            ],
+            "responses": [
+                "Sorry to hear that. Did anything happened particularly?",
+                "Sometimes those quiet, do nothing days can be a nice break, but they can also feel a bit eventful"
+            ]
+        },
+
         {
             "tag": "haha",
             "patterns": [
@@ -188,7 +232,7 @@
                 "who programmed you"
             ],
             "responses": [
-                "I was made by the team named tech titans"
+                "I was made by shruti, sakshi and shravani"
             ]
         },
         {
@@ -287,17 +331,8 @@
             ]
         },
         
-        
-        {
-            "tag": "suggest",
-            "patterns": [
-                "you are useless","useless","suggest","suggestions","you are bad"
-            ],
-            "responses": [
-                "Please mail your suggestions to mindwell@gmail.com. Thank you for helping me improve!"
-            ]
-        },
-            {"tag": "riddle",
+        {   
+            "tag": "riddle",
             "patterns": [
                 "Ask me a riddle",
                 "Ask me a question",

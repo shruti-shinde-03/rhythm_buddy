@@ -25,10 +25,10 @@ model = NeuralNet(input_size, hidden_size, output_size).to(device)
 model.load_state_dict(model_state)
 model.eval()
 
-bot_name = "Olivia"
+bot_name = "Shruti"
 
-def get_response(msg):
-    sentence = tokenize(msg)
+def get_response(message):
+    sentence = tokenize(message)
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])
     X = torch.from_numpy(X).to(device)
@@ -40,7 +40,7 @@ def get_response(msg):
     probs = torch.softmax(output, dim = 1)
     prob = probs[0][predicted.item()]
 
-    if prob.item() > 0.75:
+    if prob.item() > 0.95:
         for intent in intents["intents"]:
             if tag == intent["tag"]:
                 return random.choice(intent["responses"])
