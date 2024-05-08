@@ -79,6 +79,16 @@
         border-radius: 20px;
         cursor: pointer;
     }
+
+    .analyze-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        margin-top: 10px; /* Add some space from other elements */
+    }
 </style>
 </head>
 <body>
@@ -89,12 +99,16 @@
         <input type="text" id="user-input" class="chat-input" placeholder="Type your message...">
         <button id="send-btn" class="send-btn">Send</button>
     </div>
+    <button id="analyze-btn" class="analyze-btn">Analyze Tone</button>
 </div>
 
 <script>
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
+    const analyzeBtn = document.getElementById('analyze-btn');
+
+    let chatHistory = [];
 
     sendBtn.addEventListener('click', sendMessage);
     userInput.addEventListener('keypress', function (e) {
@@ -102,6 +116,8 @@
             sendMessage();
         }
     });
+
+    analyzeBtn.addEventListener('click', analyzeTone);
 
     function sendMessage() {
     const messageText = userInput.value.trim();
@@ -135,6 +151,22 @@
         
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+
+    function analyzeTone() {
+    fetch('/analyze_tone', {
+        method: 'POST',  // POST method
+        headers: {
+            'Content-Type': 'application/json'  // Correct content type
+        },
+        body: JSON.stringify({ chatText: "Chat History" })  // Data to send
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Tone Analysis:", data);  // Handle the tone analysis result
+        // Further actions based on tone analysis
+    })
+    .catch(error => console.error('Error:', error));
+}
 </script>
 </body>
 </html>
