@@ -112,12 +112,17 @@
 
 .songs-panel {
     flex: 1;
-    display: none;
+    display: none; 
     flex-direction: column;
     border-left: 1px solid #ccc;
-    background-color: #20788b;
+    background-color:#20788b;
     padding: 10px;
+    height: 100%; 
 }
+.songs-panel.open {
+    display: flex; 
+}
+
 
 .song {
     padding: 5px 10px;
@@ -161,126 +166,99 @@
     <button id="recommend-songs-btn" class="recommend-songs-btn">Recommend Songs</button>
 </div>
 <script>
-    const chatMessages = document.getElementById('chat-messages');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-    const recommendSongsBtn = document.getElementById('recommend-songs-btn');
-    const songsPanel = document.getElementById('songs-panel');
+  const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const recommendSongsBtn = document.getElementById('recommend-songs-btn');
+const songsPanel = document.getElementById('songs-panel');
 
-    let chatHistory = [];
+let chatHistory = [];
 
-    // Function to add message to chat
-    function appendMessage(message, sender) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message', sender);
-        messageElement.innerText = message;
-        chatMessages.appendChild(messageElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+// Function to add message to chat
+function appendMessage(message, sender) {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message', sender);
+    messageElement.innerText = message;
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
 
-    // Function to handle sending a message
-    function sendMessage() {
-        const messageText = userInput.value.trim();
-        if (messageText === '') return;
+// Function to handle sending a message
+function sendMessage() {
+    const messageText = userInput.value.trim();
+    if (messageText === '') return;
 
-        appendMessage(messageText, 'user');
-        userInput.value = '';
+    appendMessage(messageText, 'user');
+    userInput.value = '';
 
-        // Sending message to Flask API to generate response
-        fetch('/predict', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message: messageText })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const botResponse = data.answer;
-            appendMessage(botResponse, 'bot');
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    // Event listener for sending message when "Send" button is clicked
-    sendBtn.addEventListener('click', sendMessage);
-
-    // Event listener for sending message when "Enter" key is pressed
-    userInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
-    });
-    
-    // Function to recommend songs based on tone analysis
-    function recommendSongs() {
-    // Sending chat history to Flask API to analyze tone
-    fetch('/analyze_tone', {
+    // Sending message to Flask API to generate response
+    fetch('/predict', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ chat_history: chatHistory })
+        body: JSON.stringify({ message: messageText })
     })
     .then(response => response.json())
     .then(data => {
-        // Handle tone analysis response
-        const tone = data.tone;
-
-        // Use tone to recommend songs via Flask API
-        fetch('/recommend_songs', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ tone: tone })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Display song recommendations in songs panel
-            const songsList = document.getElementById('songs-list');
-            songsList.innerHTML = ''; // Clear previous recommendations
-
-            data.songs.forEach(song => {
-                const songElement = document.createElement('div');
-                songElement.classList.add('song');
-
-                const imageElement = document.createElement('img');
-                imageElement.src = song.image[2]['#text']; // Use the large size image
-
-                const titleElement = document.createElement('div');
-                titleElement.textContent = song.name;
-                
-                const artistElement = document.createElement('div');
-                artistElement.textContent = `Artist: ${song.artist.name}`;
-
-                const durationElement = document.createElement('div');
-                durationElement.textContent = `Duration: ${song.duration} seconds`;
-
-                const linkElement = document.createElement('a');
-                linkElement.href = song.url;
-                linkElement.textContent = "Listen on Last.fm";
-
-                songElement.appendChild(imageElement);
-                songElement.appendChild(titleElement);
-                songElement.appendChild(artistElement);
-                songElement.appendChild(durationElement);
-                songElement.appendChild(linkElement);
-
-                songsList.appendChild(songElement);
-            });
-
-            const songsPanel = document.getElementById('songs-panel');
-            songsPanel.style.display = 'flex'; // Show songs panel
-        })
-        .catch(error => console.error('Error recommending songs:', error));
+        const botResponse = data.answer;
+        appendMessage(botResponse, 'bot');
     })
-    .catch(error => console.error('Error analyzing tone:', error));
+    .catch(error => console.error('Error:', error));
+}
+
+// Event listener for sending message when "Send" button is clicked
+sendBtn.addEventListener('click', sendMessage);
+
+// Event listener for sending message when "Enter" key is pressed
+userInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+// Function to toggle the display of the songs panel
+function toggleSongsPanel() {
+    songsPanel.classList.toggle('open'); // Toggle the "open" class
+}
+
+// Function to toggle the display of the songs panel
+function toggleSongsPanel() {
+    songsPanel.classList.toggle('open'); // Toggle the "open" class
+
+    // Clear previous textarea if it exists
+    const existingTextarea = document.getElementById('songs-info');
+    if (existingTextarea) {
+        existingTextarea.remove();
+    }
+
+    if (songsPanel.classList.contains('open')) {
+        // Create a new textarea to display songs info
+        const textarea = document.createElement('textarea');
+        textarea.id = 'songs-info';
+        textarea.rows = 10; // Set the number of rows as needed
+        textarea.style.width = '100%'; // Set the width to 100%
+        textarea.readOnly = true; // Make it read-only
+
+        // Construct the songs info text
+        const songsInfo = songs.map(song => {
+            return `Name: ${song.name}\nArtist: ${song.artist}\nDuration: ${song.duration} seconds\nListen on Last.fm: ${song.url}\n\n`;
+        }).join('');
+
+        // Set the songs info text to the textarea
+        textarea.value = songsInfo;
+
+        // Append the textarea to the songs panel
+        songsPanel.appendChild(textarea);
+    }
 }
 
 
-    // Event listener for recommending songs
-    recommendSongsBtn.addEventListener('click', recommendSongs);
+// Event listener for the "Recommend Songs" button
+recommendSongsBtn.addEventListener('click', toggleSongsPanel);
+
+
+
 </script>
 
 
