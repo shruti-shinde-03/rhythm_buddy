@@ -214,43 +214,70 @@
     
     // Function to recommend songs based on tone analysis
     function recommendSongs() {
-        // Sending chat history to Flask API to analyze tone
-        fetch('/analyze_tone', {
+    // Sending chat history to Flask API to analyze tone
+    fetch('/analyze_tone', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ chat_history: chatHistory })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle tone analysis response
+        const tone = data.tone;
+
+        // Use tone to recommend songs via Flask API
+        fetch('/recommend_songs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ chat_history: chatHistory })
+            body: JSON.stringify({ tone: tone })
         })
         .then(response => response.json())
         .then(data => {
-            // Handle tone analysis response
-            const tone = data.tone;
+            // Display song recommendations in songs panel
+            const songsList = document.getElementById('songs-list');
+            songsList.innerHTML = ''; // Clear previous recommendations
 
-            // Use tone to recommend songs via Flask API
-            fetch('/recommend_songs', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ tone: tone })
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Display song recommendations in songs panel
-                songsPanel.innerHTML = ''; // Clear previous recommendations
-                data.songs.forEach(song => {
-                    const songElement = document.createElement('div');
-                    songElement.classList.add('song');
-                    songElement.innerText = song.name;
-                    songsPanel.appendChild(songElement);
-                });
-                songsPanel.style.display = 'flex'; // Show songs panel
-            })
-            .catch(error => console.error('Error recommending songs:', error));
+            data.songs.forEach(song => {
+                const songElement = document.createElement('div');
+                songElement.classList.add('song');
+
+                const imageElement = document.createElement('img');
+                imageElement.src = song.image[2]['#text']; // Use the large size image
+
+                const titleElement = document.createElement('div');
+                titleElement.textContent = song.name;
+                
+                const artistElement = document.createElement('div');
+                artistElement.textContent = `Artist: ${song.artist.name}`;
+
+                const durationElement = document.createElement('div');
+                durationElement.textContent = `Duration: ${song.duration} seconds`;
+
+                const linkElement = document.createElement('a');
+                linkElement.href = song.url;
+                linkElement.textContent = "Listen on Last.fm";
+
+                songElement.appendChild(imageElement);
+                songElement.appendChild(titleElement);
+                songElement.appendChild(artistElement);
+                songElement.appendChild(durationElement);
+                songElement.appendChild(linkElement);
+
+                songsList.appendChild(songElement);
+            });
+
+            const songsPanel = document.getElementById('songs-panel');
+            songsPanel.style.display = 'flex'; // Show songs panel
         })
-        .catch(error => console.error('Error analyzing tone:', error));
-    }
+        .catch(error => console.error('Error recommending songs:', error));
+    })
+    .catch(error => console.error('Error analyzing tone:', error));
+}
+
 
     // Event listener for recommending songs
     recommendSongsBtn.addEventListener('click', recommendSongs);
