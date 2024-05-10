@@ -6,167 +6,256 @@
 <title>Chatbot UI</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #247886;
-    }
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e6f3c4;
+}
 
-    .chat-container {
-        width: 300px;
-        height: 500px;
-        margin: 50px auto;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
+.header {
+    text-align: center;
+    margin-top: 20px; 
+    font-size: 1.5em;
+}
 
-    .chat-header {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 15px;
-        text-align: center;
-    }
+.chat-container {
+    display: flex;
+    flex-direction: row;
+    width: 900px;
+    height: 450px;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
-    .chat-messages {
-        flex: 1;
-        padding: 10px;
-        overflow-y: scroll;
-        background-color: #bbf1f1;
-    }
+.chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 
-    .message {
-        background-color: #f9f9f9;
-        border-radius: 5px;
-        padding: 5px 10px;
-        margin-bottom: 10px;
-        max-width: 70%;
-    }
+.chat-header {
+    background-color: #88cad6;
+    color: black;
+    padding: 20px 15px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 25px;
+}
 
-    .message.bot {
-        background-color: #dcf8c6;
-        align-self: flex-start;
-    }
+.chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: #e4f7fa;
+}
 
-    .message.user {
-        background-color: #d4e6f1;
-        align-self: flex-end;
-    }
+.message {
+    background-color: #e4f7fa;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
 
-    .chat-input-container {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        background-color: #fff;
-        box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-    }
+.message.bot {
+    background-color: #a2c8d1;
+    color: black;
+    align-self: flex-start;
+}
 
-    .chat-input {
-        flex: 1;
-        padding: 8px 10px;
-        margin-right: 10px;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-    }
+.message.user {
+    background-color: #c2d8dd;
+    color: black;
+    align-self: flex-end;
+}
 
-    .send-btn {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-    }
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
 
-    .analyze-btn {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-        margin-top: 10px; /* Add some space from other elements */
-    }
+.chat-input {
+    flex: 1;
+    padding: 9px 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+.send-btn,
+.recommend-songs-btn {
+    background-color: #20788b;
+    color: black;
+    font-size: 16px;
+    border: none;
+    padding: 15px 110px; 
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-btn:hover,
+.recommend-songs-btn:hover {
+    background-color:  #8aa5aa;
+}
+
+.songs-panel {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    border-left: 1px solid #ccc;
+    background-color: #20788b;
+    padding: 10px;
+}
+
+.song {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: #a2c8d1;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.song:hover {
+    background-color: #a4babe;
+}
+
+.navbar {
+    text-align: center;
+    margin-top: 20px;
+}
 </style>
 </head>
 <body>
-<div class="chat-container">
-    <div class="chat-header">Rhythm Buddy</div>
-    <div class="chat-messages" id="chat-messages"></div>
-    <div class="chat-input-container">
-        <input type="text" id="user-input" class="chat-input" placeholder="Type your message...">
-        <button id="send-btn" class="send-btn">Send</button>
-    </div>
-    <button id="analyze-btn" class="analyze-btn">Analyze Tone</button>
+<div class="header">
+    <h1>Rhythm Buddy</h1>
 </div>
-
+<div class="chat-container">
+    <div class="chat-panel">
+        <div class="chat-header">Chatbot</div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-container">
+            <input type="text" id="user-input" class="chat-input" placeholder="Type your message...">
+            <button id="send-btn" class="send-btn">Send</button>
+        </div>
+    </div>
+    <div class="chat-panel songs-panel" id="songs-panel">
+        <div class="chat-header">Recommended Songs</div>
+        <div class="chat-messages" id="songs-list"></div>
+    </div>
+</div>
+<div class="navbar">
+    <button id="recommend-songs-btn" class="recommend-songs-btn">Recommend Songs</button>
+</div>
 <script>
     const chatMessages = document.getElementById('chat-messages');
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
-    const analyzeBtn = document.getElementById('analyze-btn');
+    const recommendSongsBtn = document.getElementById('recommend-songs-btn');
+    const songsPanel = document.getElementById('songs-panel');
 
     let chatHistory = [];
 
-    sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
-    });
-
-    analyzeBtn.addEventListener('click', analyzeTone);
-
-    function sendMessage() {
-    const messageText = userInput.value.trim();
-    if (messageText === '') return;
-
-    appendMessage(messageText, 'user');
-    userInput.value = '';
-
-    fetch('/predict', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ message: messageText })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Display bot response
-        const botResponse = data.answer;
-        appendMessage(botResponse, 'bot');
-    })
-    .catch(error => console.error('Error:', error));
-}
-
+    // Function to add message to chat
     function appendMessage(message, sender) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender);
         messageElement.innerText = message;
         chatMessages.appendChild(messageElement);
-
-        
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function analyzeTone() {
-    fetch('/analyze_tone', {
-        method: 'POST',  // POST method
-        headers: {
-            'Content-Type': 'application/json'  // Correct content type
-        },
-        body: JSON.stringify({ chatText: "Chat History" })  // Data to send
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Tone Analysis:", data);  // Handle the tone analysis result
-        // Further actions based on tone analysis
-    })
-    .catch(error => console.error('Error:', error));
-}
+    // Function to handle sending a message
+    function sendMessage() {
+        const messageText = userInput.value.trim();
+        if (messageText === '') return;
+
+        appendMessage(messageText, 'user');
+        userInput.value = '';
+
+        // Sending message to Flask API to generate response
+        fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: messageText })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const botResponse = data.answer;
+            appendMessage(botResponse, 'bot');
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Event listener for sending message when "Send" button is clicked
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Event listener for sending message when "Enter" key is pressed
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+    
+    // Function to recommend songs based on tone analysis
+    function recommendSongs() {
+        // Sending chat history to Flask API to analyze tone
+        fetch('/analyze_tone', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ chat_history: chatHistory })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle tone analysis response
+            const tone = data.tone;
+
+            // Use tone to recommend songs via Flask API
+            fetch('/recommend_songs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ tone: tone })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display song recommendations in songs panel
+                songsPanel.innerHTML = ''; // Clear previous recommendations
+                data.songs.forEach(song => {
+                    const songElement = document.createElement('div');
+                    songElement.classList.add('song');
+                    songElement.innerText = song.name;
+                    songsPanel.appendChild(songElement);
+                });
+                songsPanel.style.display = 'flex'; // Show songs panel
+            })
+            .catch(error => console.error('Error recommending songs:', error));
+        })
+        .catch(error => console.error('Error analyzing tone:', error));
+    }
+
+    // Event listener for recommending songs
+    recommendSongsBtn.addEventListener('click', recommendSongs);
 </script>
+
+
 </body>
 </html>
