@@ -74,6 +74,22 @@
     color: black;
     align-self: flex-end;
 }
+.message.bot::before,
+.message.user::before {
+    content: attr(data-label);
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.message.bot::before {
+    color: #dd0808; 
+}
+
+.message.user::before {
+    color: #4bd40b; 
+}
+
 
 .chat-input-container {
     display: flex;
@@ -174,14 +190,16 @@ const songsPanel = document.getElementById('songs-panel');
 
 let chatHistory = [];
 
-// Function to add message to chat
 function appendMessage(message, sender) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('message', sender);
+    messageElement.setAttribute('data-label', sender === 'user' ? 'You:' : 'Bot: ');
     messageElement.innerText = message;
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
+
+
 
 // Function to handle sending a message
 function sendMessage() {
