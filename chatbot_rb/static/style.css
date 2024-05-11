@@ -5,13 +5,13 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #e6f3c4;
+    background-color: rgb(48, 188, 243)
 }
 
 .header {
     text-align: center;
-    margin-top: 20px; 
-    font-size: 1.5em;
+    margin-top: 0.5px; 
+    font-size: 1.3em;
 }
 
 .chat-container {
@@ -19,7 +19,7 @@ body {
     flex-direction: row;
     width: 900px;
     height: 450px;
-    margin-top: 20px;
+    margin-top: 6px;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -29,11 +29,11 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    background-color: #306b9b;
+    background-color: #1eddf7;
 }
 
 .chat-header {
-    background-color: #88cad6;
+    background-color: rgb(60, 149, 201);
     color: black;
     padding: 15px 15px;
     text-align: center;
@@ -77,11 +77,11 @@ body {
 }
 
 .message.bot::before {
-    color: #dd0808; 
+    color: rgb(16, 80, 141); 
 }
 
 .message.user::before {
-    color: #4bd40b; 
+    color: #4b28ad; 
 }
 
 
@@ -89,30 +89,34 @@ body {
     display: flex;
     align-items: center;
     padding: 10px;
-    background-color: #fff;
+    background-color: #98cffc;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 
 .chat-input {
     flex: 1;
-    padding: 9px 10px;
+    padding: 13px 10px;
     margin-right: 10px;
+    background-color: #d4ebfd;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     outline: none;
+    font-size: 14px;
 }
 
 .send-btn,
 .recommend-songs-btn {
-    background-color: #20788b;
+    background-color: #15788f;
     color: black;
     font-size: 16px;
     border: none;
-    padding: 15px 110px; 
+    padding: 13px 90px; 
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-size: 17px;
+    font-weight: 200;
 }
 
 .send-btn:hover,
@@ -124,9 +128,11 @@ body {
     flex: 1;
     display: none; 
     flex-direction: column;
-    border: 1px solid #ccc;
     background-color:#20788b;
-    padding: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    border-radius: 2px;
     height: auto; 
     overflow: hidden; 
 }
@@ -136,7 +142,7 @@ body {
 }
 .song-details {
     padding: 10px;
-    background-color: #90f1e5;
+    background-color: rgb(96, 216, 224);
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     cursor: pointer;
