@@ -32,17 +32,27 @@ def analyze_tone(chat_data):
         url = f"{base_url}?method={api_method}&tag={emotion}&api_key={api_key}&format={response_format}"
         response = requests.get(url)
         payload = response.json()
-        print(payload)
         # Checking if the request was successful
         if response.status_code == 200:
             # If successful, get the JSON response
             data = response.json()
-            print("Data retrieved:", data)
+            tracks = data.get('tracks', {}).get('track', [])
+        
+            songs = []
+            for track in tracks:
+                song = {
+                    "name": track.get('name', ''),
+                    "artist": track.get('artist', {}).get('name', ''),
+                    "url": track.get('url', ''),
+                    "image": track.get('image', [{}])[1].get('#text', ''),
+                    "duration": track.get('duration', ''),   # Get the extralarge image
+                }
+                songs.append(song)
+            return {"songs": songs}
         else:
             # If the request failed, print the status code
             print("Error:", response.status_code, response.text)
 
-        return data
     else:
         return None
 
@@ -55,12 +65,13 @@ def index_get():
 def predict():
     if request.method == "POST":
         text = request.get_json().get("message")
-        chat_history.append(f"User: {text}")
+        chat_history.append(f"{text}")
         response = get_response(text)
         
         
         message = {"answer": response}
         print("response", message)
+        print("chat", chat_history)
         return jsonify(message)
     
     else:
@@ -74,7 +85,7 @@ def analyze_tone_endpoint():
     tone_result = analyze_tone(chat_data)
 
     if not tone_result:
-        return jsonify({"error": "Tone analysis failed"}), 500  # Internal server error
+        return jsonify({"error": "Tone analysis failed"}), 500 # Internal server error
 
     return jsonify(tone_result), 200
 

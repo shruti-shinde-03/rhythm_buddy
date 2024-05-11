@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -29,12 +29,13 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    background-color: #306b9b;
 }
 
 .chat-header {
     background-color: #88cad6;
     color: black;
-    padding: 20px 15px;
+    padding: 15px 15px;
     text-align: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -45,7 +46,7 @@ body {
     flex: 1;
     padding: 10px;
     overflow-y: scroll;
-    background-color: #e4f7fa;
+    background-color: #3aa5b6;
 }
 
 .message {
@@ -123,7 +124,7 @@ body {
     flex: 1;
     display: none; 
     flex-direction: column;
-    border-left: 1px solid #ccc;
+    border: 1px solid #ccc;
     background-color:#20788b;
     padding: 10px;
     height: auto; 
@@ -135,53 +136,49 @@ body {
 }
 .song-details {
     padding: 10px;
-    margin-bottom: 10px;
-    overflow-y: scroll;
-    background-color:  #e4f7fa;
+    background-color: #90f1e5;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px; /* Add margin between each song */
 }
 
-.song-details:last-child {
-    margin-bottom: 0;
+.song-details:hover {
+    background-color: #a4babe;
 }
 
-.song-details div {
-    margin-bottom: 40px;
+.song-info {
+    display: flex;
+    flex-direction: row;/* Align items vertically in the middle */
 }
 
-.image-container {
-    width: 150px; 
-    height: 150px; 
-    background-color: #88cad6;
+.song-info image-container {
+    width: 8px;
+    height: 50px;
+    background-color: rgb(7, 11, 12);
     border-radius: 5px;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-right: 20px; /* Add space between image and details */
 }
 
-.image-container img {
+.song-info image-container img {
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
 }
 
-
-
-/*.song {
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    background-color: #a2c8d1;
-    color: black;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}*/
-
-.song:hover {
-    background-color: #a4babe;
+.song-info .details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 4%;
 }
+
+.details p {
+    margin-bottom: 5px;
+}
+
 
 .navbar {
     text-align: center;
