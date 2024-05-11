@@ -285,13 +285,44 @@ function toggleSongsPanel() {
     songsPanel.classList.toggle('open'); // Toggle the "open" class
 }
 
-// Function to toggle the display of the songs panel
-function toggleSongsPanel() {
-    songsPanel.classList.toggle('open'); // Toggle the "open" class
-}
 
 // Event listener for the "Recommend Songs" button
-recommendSongsBtn.addEventListener('click', toggleSongsPanel);
+recommendSongsBtn.addEventListener('click', function() {
+    toggleSongsPanel(); // Toggle the display of songs panel
+    analyzeTone(); // Trigger tone analysis
+});
+
+function analyzeTone() {
+    fetch('/analyze_tone', {
+        method: 'POST',  // POST method
+        headers: {
+            'Content-Type': 'application/json'  // Correct content type
+        },
+        body: JSON.stringify({ chatText: "Chat History" })  // Data to send
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Tone Analysis:");  // Handle the tone analysis result
+        const songsListContainer = document.getElementById('songs-list');
+        songsListContainer.innerHTML = '';
+        
+        // Iterate over the song recommendations and create HTML elements
+        data.forEach(song => {
+            const songElement = document.createElement('div');
+            songElement.classList.add('song-details');
+            songElement.innerHTML = `
+                <div>Name: ${song.name}</div>
+                <div>Artist: ${song.artist.name}</div>
+                <div>Song URL: <a href="${song.url}">${song.url}</a></div>
+                <div class="image-container">
+                    <img src="${song.image[2]['#text']}" alt="Song Image">
+                </div>
+            `;
+            songsListContainer.appendChild(songElement);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 </script>
 
