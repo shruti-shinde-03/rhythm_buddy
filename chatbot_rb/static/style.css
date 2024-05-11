@@ -1,0 +1,189 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e6f3c4;
+}
+
+.header {
+    text-align: center;
+    margin-top: 20px; 
+    font-size: 1.5em;
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: row;
+    width: 900px;
+    height: 450px;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chat-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: #88cad6;
+    color: black;
+    padding: 20px 15px;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 25px;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: #e4f7fa;
+}
+
+.message {
+    background-color: #e4f7fa;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    max-width: 100%;
+}
+
+.message.bot {
+    background-color: #a2c8d1;
+    color: black;
+    align-self: flex-start;
+}
+
+.message.user {
+    background-color: #c2d8dd;
+    color: black;
+    align-self: flex-end;
+}
+.message.bot::before,
+.message.user::before {
+    content: attr(data-label);
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.message.bot::before {
+    color: #dd0808; 
+}
+
+.message.user::before {
+    color: #4bd40b; 
+}
+
+
+.chat-input-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 9px 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 20px;
+    outline: none;
+}
+
+.send-btn,
+.recommend-songs-btn {
+    background-color: #20788b;
+    color: black;
+    font-size: 16px;
+    border: none;
+    padding: 15px 110px; 
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.send-btn:hover,
+.recommend-songs-btn:hover {
+    background-color:  #8aa5aa;
+}
+
+.songs-panel {
+    flex: 1;
+    display: none; 
+    flex-direction: column;
+    border-left: 1px solid #ccc;
+    background-color:#20788b;
+    padding: 10px;
+    height: auto; 
+    overflow: hidden; 
+}
+
+.songs-panel.open {
+    display: flex; 
+}
+.song-details {
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-y: scroll;
+    background-color:  #e4f7fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.song-details:last-child {
+    margin-bottom: 0;
+}
+
+.song-details div {
+    margin-bottom: 40px;
+}
+
+.image-container {
+    width: 150px; 
+    height: 150px; 
+    background-color: #88cad6;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+
+
+/*.song {
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: #a2c8d1;
+    color: black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}*/
+
+.song:hover {
+    background-color: #a4babe;
+}
+
+.navbar {
+    text-align: center;
+    margin-top: 20px;
+}
