@@ -5,8 +5,12 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* background-color: rgb(48, 188, 243); */
-    background-image: "C:/Users/ADMIN/Desktop/rhythm/rhythm_buddy/chatbot_rb/static/musicimage.jpg";
+    background-color: rgb(48, 188, 243);
+    /* background-image: url("../images/download.jpg");
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; */
 
 }
 
